@@ -10,7 +10,7 @@ import Alamofire
 import UIKit
 
 protocol uploadInfo{
-    func uploadAllInfo(names: [String], status: [String], last_loc: [String], species: [String], icons: [UIImage], all_info: [Any])
+    func uploadAllInfo(names: [String], status: [String], last_loc: [String], species: [String], icons: [UIImage])
 }
 
 class ViewModelTable{
@@ -29,8 +29,7 @@ class ViewModelTable{
             status: [String] = [],
             last_loc: [String] = [],
             species: [String] = [],
-            icon: [UIImage] = [],
-            all_info = [names, status, last_loc, species, icon] as [Any]
+            icon: [UIImage] = []
         
         TableLoader().loadTableAlamofire{ info in
             self.info = info
@@ -47,12 +46,7 @@ class ViewModelTable{
                                 case .success(let responseData):
                                     icon.append(UIImage(data: responseData!, scale:1) ?? .checkmark)
                                     if icon.count == last_loc.count{
-                                        all_info[0] = names
-                                        all_info[1] = status
-                                        all_info[2] = last_loc
-                                        all_info[3] = species
-                                        all_info[4] = icon
-                                        self.infoDelegate?.uploadAllInfo(names: names, status: status, last_loc: last_loc, species: species, icons: icon, all_info: all_info)
+                                        self.infoDelegate?.uploadAllInfo(names: names, status: status, last_loc: last_loc, species: species, icons: icon)
                                     }
                                     
                                 case .failure(let error):

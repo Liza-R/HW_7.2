@@ -19,8 +19,12 @@ class ViewController: UIViewController{
         last_loc: [String] = [],
         species: [String] = [],
         icon: [UIImage] = [],
-        all_info: [Any] = [],
-        disposeBag = DisposeBag()
+        disposeBag = DisposeBag(),
+        newNames: [String] = [],
+        newStatus: [String] = [],
+        newLast_loc: [String] = [],
+        newSpecies: [String] = [],
+        newIcons: [UIImage] = []
 
     
     @IBOutlet weak var searchPersoneBar: UISearchBar!
@@ -45,25 +49,25 @@ class ViewController: UIViewController{
 }
 
 extension ViewController: uploadInfo {
-    func uploadAllInfo(names: [String], status: [String], last_loc: [String], species: [String], icons: [UIImage], all_info: [Any]){
+    func uploadAllInfo(names: [String], status: [String], last_loc: [String], species: [String], icons: [UIImage]){
         self.names = names
         searchResult = names
         self.status = status
         self.last_loc = last_loc
         self.species = species
         self.icon = icons
-        self.all_info = all_info
         allTable.reloadData()
+        self.newNames = self.names
+        self.newStatus = self.status
+        self.newLast_loc = self.last_loc
+        self.newSpecies = self.species
+        self.newIcons = self.icon
     }
 }
 
 extension ViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let newNames = self.names,
-            newStatus = self.status,
-            newLast_loc = self.last_loc,
-            newSpecies = self.species,
-            newIcons = self.icon
+        
             names = searchText.isEmpty ? searchResult: searchResult.filter{ (item: String) -> Bool in
                 return item.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
             }
