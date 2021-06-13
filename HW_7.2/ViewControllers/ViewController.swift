@@ -12,7 +12,6 @@ import RxCocoa
 var personeID = 0
 
 class ViewController: UIViewController{
-    
     var names: [String] = [],
         searchResult: [String] = [],
         status: [String] = [],
@@ -24,9 +23,9 @@ class ViewController: UIViewController{
         newStatus: [String] = [],
         newLast_loc: [String] = [],
         newSpecies: [String] = [],
-        newIcons: [UIImage] = []
+        newIcons: [UIImage] = [],
+        isLoading = false
 
-    
     @IBOutlet weak var searchPersoneBar: UISearchBar!
     @IBOutlet weak var allTable: UITableView!
 
@@ -45,6 +44,18 @@ class ViewController: UIViewController{
             let newViewController = storyboard.instantiateViewController(withIdentifier: "PersoneCard") as! ViewControllerPersone
             self.present(newViewController, animated: true, completion: nil)
           }).disposed(by: disposeBag)
+    }
+    func loadMoreData() {
+        if !self.isLoading {
+            self.isLoading = true
+            DispatchQueue.global().async{
+                sleep(2)
+                DispatchQueue.main.async {
+                    self.allTable.reloadData()
+                    self.isLoading = false
+                }
+            }
+        }
     }
 }
 
@@ -67,7 +78,6 @@ extension ViewController: uploadInfo {
 
 extension ViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
             names = searchText.isEmpty ? searchResult: searchResult.filter{ (item: String) -> Bool in
                 return item.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
             }
@@ -87,19 +97,42 @@ extension ViewController: UISearchBarDelegate{
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
             return names.count
+        } else if section == 1 {
+            return 1
+        } else {
+            return 0
+        }
     }
-
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        if (offsetY > contentHeight - scrollView.frame.height * 4) && !isLoading {
+                loadMoreData()
+        }
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+            return 2
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "base_info", for: indexPath) as! AllPersoneTableViewCell
-        
+        if indexPath.section == 0{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "base_info", for: indexPath) as! AllPersoneTableViewCell
             cell.namePersonLabel.text = names[indexPath.row]
             cell.last_locationLabel.text = last_loc[indexPath.row]
             cell.statusPersonLabel.text = "\(status[indexPath.row]) - \(species[indexPath.row])"
             cell.statusView.backgroundColor = ChangeColorStatus().colorStatus(status: status[indexPath.row])
             cell.personImage.image = icon[indexPath.row]
-        
-        return cell
+            return cell
+        }else{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "base_info", for: indexPath) as! AllPersoneTableViewCell
+            cell.activityIndicator.startAnimating()
+            return cell
+        }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
     }
 }
 

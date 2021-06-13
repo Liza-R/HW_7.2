@@ -17,8 +17,10 @@ class AllPersoneTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.addSubview(activityIndicator)
     }
-
+let activityIndicator = UIActivityIndicatorView()
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
