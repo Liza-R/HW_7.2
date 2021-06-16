@@ -13,14 +13,13 @@ class AllPersoneTableViewCell: UITableViewCell {
     @IBOutlet weak var namePersonLabel: UILabel!
     @IBOutlet weak var statusPersonLabel: UILabel!
     @IBOutlet weak var statusView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var last_locationLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.addSubview(activityIndicator)
     }
-let activityIndicator = UIActivityIndicatorView()
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }

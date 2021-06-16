@@ -9,7 +9,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-var personeID = 0
+var personeID = 0,
+    listType = "",
+    batchSize = "",
+    fromIndex = ""
 
 class ViewController: UIViewController{
     var names: [String] = [],
@@ -24,7 +27,8 @@ class ViewController: UIViewController{
         newLast_loc: [String] = [],
         newSpecies: [String] = [],
         newIcons: [UIImage] = [],
-        isLoading = false
+        isLoading = false,
+        stopAnima = false
 
     @IBOutlet weak var searchPersoneBar: UISearchBar!
     @IBOutlet weak var allTable: UITableView!
@@ -45,14 +49,17 @@ class ViewController: UIViewController{
             self.present(newViewController, animated: true, completion: nil)
           }).disposed(by: disposeBag)
     }
+   
     func loadMoreData() {
         if !self.isLoading {
             self.isLoading = true
+            self.stopAnima = false
             DispatchQueue.global().async{
                 sleep(2)
                 DispatchQueue.main.async {
                     self.allTable.reloadData()
                     self.isLoading = false
+                    self.stopAnima = true
                 }
             }
         }
@@ -91,6 +98,7 @@ extension ViewController: UISearchBarDelegate{
                 }
             }
         }
+        stopAnima = true
         allTable.reloadData()
     }
 }
@@ -99,7 +107,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return names.count
-        } else if section == 1 {
+        }else if section == 1 {
             return 1
         } else {
             return 0
@@ -114,7 +122,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate{
         }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-            return 2
+        return 2
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0{
@@ -126,13 +134,25 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate{
             cell.personImage.image = icon[indexPath.row]
             return cell
         }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "base_info", for: indexPath) as! AllPersoneTableViewCell
-            cell.activityIndicator.startAnimating()
-            return cell
+            let cell_l = tableView.dequeueReusableCell(withIdentifier: "loadingActivity", for: indexPath) as! AllPersoneTableViewCell
+            if stopAnima == false{
+                cell_l.activityIndicator.startAnimating()
+            }else{
+                cell_l.activityIndicator.stopAnimating()
+            }
+            return cell_l
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        if indexPath.section == 0 {
+            return 150
+        }else {
+            if stopAnima == false{
+                return 50
+            }else{
+                return 0
+            }
+        }
     }
 }
 

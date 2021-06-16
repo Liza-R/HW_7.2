@@ -129,6 +129,36 @@
                                             <outlet property="statusView" destination="ytE-04-Vq7" id="Rse-Of-iuE"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="loadingActivity" id="xWc-zV-PBc" customClass="AllPersoneTableViewCell" customModule="HW_7_2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="175" width="374" height="50.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="loadingActivity" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xWc-zV-PBc" id="sgo-Ur-14t">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="50.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="zfc-4c-mXR">
+                                                    <rect key="frame" x="162" y="0.0" width="50" height="50.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="9ZY-ca-ozW"/>
+                                                        <constraint firstAttribute="width" constant="50" id="THe-PJ-Cqt"/>
+                                                    </constraints>
+                                                    <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <gestureRecognizers/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="zfc-4c-mXR" secondAttribute="bottom" id="6Ce-dT-nLQ"/>
+                                                <constraint firstItem="zfc-4c-mXR" firstAttribute="centerY" secondItem="sgo-Ur-14t" secondAttribute="centerY" id="DRB-Py-5J0"/>
+                                                <constraint firstItem="zfc-4c-mXR" firstAttribute="centerX" secondItem="sgo-Ur-14t" secondAttribute="centerX" id="mam-hy-RsX"/>
+                                                <constraint firstItem="zfc-4c-mXR" firstAttribute="top" secondItem="sgo-Ur-14t" secondAttribute="top" id="ues-uR-q37"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="zfc-4c-mXR" id="Bjk-Kb-qWM"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
