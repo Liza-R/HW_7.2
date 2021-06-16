@@ -50,13 +50,28 @@ class ViewController: UIViewController{
           }).disposed(by: disposeBag)
     }
    
-    func loadMoreData() {
-        if !self.isLoading {
+    func loadMoreData(){
+        if self.isLoading == false{
             self.isLoading = true
             self.stopAnima = false
             DispatchQueue.global().async{
-                sleep(2)
+                sleep(3)
                 DispatchQueue.main.async {
+                    for i in self.names{
+                        self.names.append(i)
+                    }
+                    for i in self.status{
+                        self.status.append(i)
+                    }
+                    for i in self.species{
+                        self.species.append(i)
+                    }
+                    for i in self.icon{
+                        self.icon.append(i)
+                    }
+                    for i in self.last_loc{
+                        self.last_loc.append(i)
+                    }
                     self.allTable.reloadData()
                     self.isLoading = false
                     self.stopAnima = true
@@ -117,7 +132,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate{
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
-        if (offsetY > contentHeight - scrollView.frame.height * 4) && !isLoading {
+        if (offsetY > contentHeight - scrollView.frame.height * 2) && isLoading == false {
                 loadMoreData()
         }
     }
